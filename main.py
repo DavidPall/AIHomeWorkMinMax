@@ -1,5 +1,4 @@
 import numpy
-import termcolor
 from termcolor import colored
 
 game_board = numpy.zeros((6, 7))
@@ -16,7 +15,7 @@ def play_disc(player_num, column_num):
     for i in reversed(range(0, 6)):
         if game_board[i][column_num] == 0:
             game_board[i][column_num] = player_num
-            if check(i, column_num, player_num):
+            if check(i, column_num, player_num) >= 4:
                 pretty_print()
                 print("Player nr.{} has won!".format(player_num))
                 exit(0)
@@ -26,15 +25,11 @@ def play_disc(player_num, column_num):
 
 
 def check(i, j, p):
-    if (check_vertical_l(i, j - 1, p) + check_vertical_r(i, j + 1, p)) > 2:
-        return True
-    if (check_horiz_u(i - 1, j, p) + check_horiz_d(i + 1, j, p)) > 2:
-        return True
-    if (check_main_diag_l(i - 1, j - 1, p) + check_main_diag_r(i + 1, j + 1, p)) > 2:
-        return True
-    if (check_inv_diag_l(i + 1, j - 1, p) + check_inv_diag_r(i - 1, j + 1, p)) > 2:
-        return True
-    return False
+    vertical = check_vertical_l(i, j - 1, p) + check_vertical_r(i, j + 1, p)
+    horiz = check_horiz_u(i - 1, j, p) + check_horiz_d(i + 1, j, p)
+    main_diag = check_main_diag_l(i - 1, j - 1, p) + check_main_diag_r(i + 1, j + 1, p)
+    inv_diag = check_inv_diag_l(i + 1, j - 1, p) + check_inv_diag_r(i - 1, j + 1, p)
+    return max(max(vertical, horiz), max(main_diag, inv_diag))
 
 
 def check_main_diag_l(i, j, p):
