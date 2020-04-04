@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/AIMinMax.iml" filepath="$PROJECT_DIR$/.idea/AIMinMax.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/AIHomeWorkMinMax.iml" filepath="$PROJECT_DIR$/.idea/AIHomeWorkMinMax.iml" />
     </modules>
   </component>
 </project>
