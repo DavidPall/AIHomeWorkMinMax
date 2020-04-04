@@ -4,22 +4,56 @@ from termcolor import colored
 
 game_board = numpy.zeros((6, 7))
 full_columns = []
+game_finished = False
+
+class Node:
+    def __init__(self, matrix, pos, value, parent):
+        self.matrix = matrix
+        self.pos = pos
+        self.value = value
+        self.parent = parent
 
 
 def main():
     global game_board
+    global game_finished
+    counter = 1
+    while not game_finished:
+        if counter % 2 != 0:
+            pretty_print()
+            print("\nFirst player: ")
+            column = int(input("Select a column (a number in [0,6]): "))
+            for i in range(len(full_columns)):
+                if column == full_columns[i]:
+                    print("Selected column is full! Pleas select another.")
+                    counter += 1
+                    continue
+            play_disc(1, column)
+            counter += 1
+        else:
+            pretty_print()
+            print("\nSecond player: ")
+            column = int(input("Select a column (a number in [0,6]): "))
+            for i in range(len(full_columns)):
+                if column == full_columns[i]:
+                    print("Selected column is full! Pleas select another.")
+                    counter += 1
+                    continue
+            play_disc(2, column)
+            counter += 1
 
 
 def play_disc(player_num, column_num):
     global game_board
     global full_columns
+    global game_finished
     for i in reversed(range(0, 6)):
         if game_board[i][column_num] == 0:
             game_board[i][column_num] = player_num
             if check(i, column_num, player_num):
                 pretty_print()
                 print("Player nr.{} has won!".format(player_num))
-                exit(0)
+                game_finished = True
             if i == 0:
                 full_columns.append(column_num)
             return
@@ -133,3 +167,6 @@ def pretty_print():
             output += " | "
         print(output)
     print("|\/\/\/\/\/\/\/\/\/\/\/\/\/\|")
+
+
+main()
