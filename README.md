@@ -4,6 +4,7 @@
 ## Böjthe Róbert Zoltán és Páll Dávid
 
 ### Feladatok:
+
 -[x] Connect 4 játék:
     - Játékos lépése
     - Játék ábrázolása
