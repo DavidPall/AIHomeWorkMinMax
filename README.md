@@ -9,7 +9,7 @@
     - Játék ábrázolása
     - Játék kiértékelése
 
--[x]  Alfa-béta algoritmus:
+-[x]  Alfa-béta algoritmus:
     
     
     
