@@ -1,9 +1,10 @@
-import numpy
-import sys
+import math
 from termcolor import colored
+from operator import itemgetter
 
 full_columns = []
 game_finished = False
+depth = 5
 
 class Board:
     def __init__(self):
@@ -20,6 +21,7 @@ game_board = Board()
 def main():
     global game_board
     global game_finished
+    global depth
     counter = 1
     while not game_finished:
         if counter % 2 != 0:
@@ -37,7 +39,7 @@ def main():
             pretty_print()
             print("\nComputer's turn: ")
             #column = int(input("Select a column (a number in [0,6]): "))
-
+            column = comp_move(game_board.board.copy(), depth)
             for i in range(len(full_columns)):
                 if column == full_columns[i]:
                     print("Selected column is full! Pleas select another.")
@@ -48,7 +50,44 @@ def main():
 
 
 def alpha_beta(gb, i, j, depth, player_num, alpha, beta):
-    if depth == 0 or check(gb, i, j) > 3:
+    temp = check(gb, i, j)
+    if depth == 0 or temp > 3:
+        if player_num == 1:
+            return -temp
+        else:
+            return temp
+
+    if player_num == 1:
+        for col in range(7):
+            if gb[0][col] == 0:
+                tmp_gb = gb.copy()
+                tmp_gb, row = play_(tmp_gb, player_num, col)
+                alpha = max(alpha, alpha_beta(tmp_gb, row, col, depth-1, 2, alpha, beta))
+                if alpha >= beta:
+                    return alpha
+    else:
+        for col in range(7):
+            if gb[0][col] == 0:
+                tmp_gb = gb.copy()
+                tmp_gb, row = play_(tmp_gb, player_num, col)
+                beta = min(beta, alpha_beta(tmp_gb, row, col, depth-1, 1, alpha, beta))
+                if alpha >= beta:
+                    return beta
+
+
+def comp_move(gb, depth):
+    scores = []
+    for i in range(7):
+        if gb[0][i] == 0:
+            tmp_gb = gb.copy()
+            tmp_gb, row = play_(tmp_gb, 2, i)
+            num = alpha_beta(tmp_gb, row, i, depth, 1, -math.inf, math.inf)
+            scores.append((num, i))
+
+    scores.sort(key=itemgetter(0))
+    # print(scores)
+    col = scores[0][1]
+    return col
 
 
 def play_disc(player_num, column_num):
@@ -58,7 +97,7 @@ def play_disc(player_num, column_num):
     for i in reversed(range(0, 6)):
         if game_board.board[i][column_num] == 0:
             game_board.board[i][column_num] = player_num
-            if check(i, column_num, player_num) >= 3:
+            if check(game_board.board, i, column_num) >= 3:
                 pretty_print()
                 print("Player nr.{} has won!".format(player_num))
                 game_finished = True
@@ -71,7 +110,7 @@ def play_(board, player_num, column_num):
     for i in reversed(range(0, 6)):
         if board[i][column_num] == 0:
             board[i][column_num] = player_num
-    return board
+    return board, i
 
 
 def check(board, i, j):
