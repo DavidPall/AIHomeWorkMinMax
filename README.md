@@ -11,8 +11,14 @@
     - [x] Játék kiértékelése
 
 - [x]  Alfa-béta algoritmus:
-    
+    - [x] Mélységkorlátozás (fájlon belül)
+    - [ ] Időkorlát
     
 
 ### Gameplay:
 <img src="gameplayscreen.jpg" alt="drawing" width="200"/>
+
+
+### Side note:
+- Hibás, idő hiányában nem lett kijavítva
+- Futtatni fejlesztői környezetben lehet, terminálba hibát ad
