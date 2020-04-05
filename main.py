@@ -1,17 +1,21 @@
 import numpy
+import sys
 from termcolor import colored
 
-game_board = numpy.zeros((6, 7))
 full_columns = []
 game_finished = False
 
-class Node:
-    def __init__(self, matrix, pos, value, parent):
-        self.matrix = matrix
-        self.pos = pos
-        self.value = value
-        self.parent = parent
+class Board:
+    def __init__(self):
+        self.board = []
 
+        for i in range(0, 6):
+            self.board.append([])
+            for j in range(0, 7):
+                self.board[i].append(0)
+
+
+game_board = Board()
 
 def main():
     global game_board
@@ -20,7 +24,7 @@ def main():
     while not game_finished:
         if counter % 2 != 0:
             pretty_print()
-            print("\nFirst player: ")
+            print("\nPlayer's turn: ")
             column = int(input("Select a column (a number in [0,6]): "))
             for i in range(len(full_columns)):
                 if column == full_columns[i]:
@@ -31,8 +35,9 @@ def main():
             counter += 1
         else:
             pretty_print()
-            print("\nSecond player: ")
-            column = int(input("Select a column (a number in [0,6]): "))
+            print("\nComputer's turn: ")
+            #column = int(input("Select a column (a number in [0,6]): "))
+
             for i in range(len(full_columns)):
                 if column == full_columns[i]:
                     print("Selected column is full! Pleas select another.")
@@ -47,9 +52,9 @@ def play_disc(player_num, column_num):
     global full_columns
     global game_finished
     for i in reversed(range(0, 6)):
-        if game_board[i][column_num] == 0:
-            game_board[i][column_num] = player_num
-            if check(i, column_num, player_num) >= 4:
+        if game_board.board[i][column_num] == 0:
+            game_board.board[i][column_num] = player_num
+            if check(i, column_num, player_num) >= 3:
                 pretty_print()
                 print("Player nr.{} has won!".format(player_num))
                 game_finished = True
@@ -68,7 +73,7 @@ def check(i, j, p):
 
 def check_main_diag_l(i, j, p):
     if i >= 0 and j >= 0:
-        if game_board[i][j] != p:
+        if game_board.board[i][j] != p:
             return 0
         else:
             return 1 + check_main_diag_l(i - 1, j - 1, p)
@@ -77,8 +82,8 @@ def check_main_diag_l(i, j, p):
 
 
 def check_main_diag_r(i, j, p):
-    if i < len(game_board) and j < len(game_board[i]):
-        if game_board[i][j] != p:
+    if i < len(game_board.board) and j < len(game_board.board[i]):
+        if game_board.board[i][j] != p:
             return 0
         else:
             return 1 + check_main_diag_r(i + 1, j + 1, p)
@@ -87,8 +92,8 @@ def check_main_diag_r(i, j, p):
 
 
 def check_inv_diag_r(i, j, p):
-    if i >= 0 and j < len(game_board[i]):
-        if game_board[i][j] != p:
+    if i >= 0 and j < len(game_board.board[i]):
+        if game_board.board[i][j] != p:
             return 0
         else:
             return 1 + check_inv_diag_r(i - 1, j + 1, p)
@@ -97,8 +102,8 @@ def check_inv_diag_r(i, j, p):
 
 
 def check_inv_diag_l(i, j, p):
-    if i < len(game_board) and j >= 0:
-        if game_board[i][j] != p:
+    if i < len(game_board.board) and j >= 0:
+        if game_board.board[i][j] != p:
             return 0
         else:
             return 1 + check_inv_diag_l(i + 1, j - 1, p)
@@ -107,8 +112,8 @@ def check_inv_diag_l(i, j, p):
 
 
 def check_horiz_d(i, j, p):
-    if i < len(game_board):
-        if game_board[i][j] != p:
+    if i < len(game_board.board):
+        if game_board.board[i][j] != p:
             return 0
         else:
             return 1 + check_horiz_d(i + 1, j, p)
@@ -118,7 +123,7 @@ def check_horiz_d(i, j, p):
 
 def check_horiz_u(i, j, p):
     if i >= 0:
-        if game_board[i][j] != p:
+        if game_board.board[i][j] != p:
             return 0
         else:
             return 1 + check_horiz_u(i - 1, j, p)
@@ -127,8 +132,8 @@ def check_horiz_u(i, j, p):
 
 
 def check_vertical_r(i, j, p):
-    if j < len(game_board[0]):
-        if game_board[i][j] != p:
+    if j < len(game_board.board[0]):
+        if game_board.board[i][j] != p:
             return 0
         else:
             return 1 + check_vertical_r(i, j + 1, p)
@@ -138,7 +143,7 @@ def check_vertical_r(i, j, p):
 
 def check_vertical_l(i, j, p):
     if j >= 0:
-        if game_board[i][j] != p:
+        if game_board.board[i][j] != p:
             return 0
         else:
             return 1 + check_vertical_l(i, j - 1, p)
@@ -150,7 +155,7 @@ def pretty_print():
     global game_board
 
     print("  0   1   2   3   4   5   6  ")
-    for row in game_board:
+    for row in game_board.board:
         output = "| "
         for col in row:
             if col == 0:
