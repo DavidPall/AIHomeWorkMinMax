@@ -4,7 +4,13 @@
 ## Böjthe Róbert Zoltán és Páll Dávid
 
 ### Feladatok:
--[x] Connect 4 játék
+
+- [x] Connect 4 játék:
+    - Játékos lépése
+    - Játék ábrázolása
+    - Játék kiértékelése
+
+- [x]  Alfa-béta algoritmus:
     
     
     
