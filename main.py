@@ -47,6 +47,10 @@ def main():
             counter += 1
 
 
+def alpha_beta(gb, i, j, depth, player_num, alpha, beta):
+    if depth == 0 or check(gb, i, j) > 3:
+
+
 def play_disc(player_num, column_num):
     global game_board
     global full_columns
@@ -63,90 +67,98 @@ def play_disc(player_num, column_num):
             return
 
 
-def check(i, j, p):
-    vertical = check_vertical_l(i, j - 1, p) + check_vertical_r(i, j + 1, p)
-    horiz = check_horiz_u(i - 1, j, p) + check_horiz_d(i + 1, j, p)
-    main_diag = check_main_diag_l(i - 1, j - 1, p) + check_main_diag_r(i + 1, j + 1, p)
-    inv_diag = check_inv_diag_l(i + 1, j - 1, p) + check_inv_diag_r(i - 1, j + 1, p)
+def play_(board, player_num, column_num):
+    for i in reversed(range(0, 6)):
+        if board[i][column_num] == 0:
+            board[i][column_num] = player_num
+    return board
+
+
+def check(board, i, j):
+    p = board[i][j]
+    vertical = check_vertical_l(board, i, j - 1, p) + check_vertical_r(board, i, j + 1, p)
+    horiz = check_horiz_u(board, i - 1, j, p) + check_horiz_d(board, i + 1, j, p)
+    main_diag = check_main_diag_l(board, i - 1, j - 1, p) + check_main_diag_r(board, i + 1, j + 1, p)
+    inv_diag = check_inv_diag_l(board, i + 1, j - 1, p) + check_inv_diag_r(board, i - 1, j + 1, p)
     return max(max(vertical, horiz), max(main_diag, inv_diag))
 
 
-def check_main_diag_l(i, j, p):
+def check_main_diag_l(board, i, j, p):
     if i >= 0 and j >= 0:
-        if game_board.board[i][j] != p:
+        if board[i][j] != p:
             return 0
         else:
-            return 1 + check_main_diag_l(i - 1, j - 1, p)
+            return 1 + check_main_diag_l(board, i - 1, j - 1, p)
     else:
         return 0
 
 
-def check_main_diag_r(i, j, p):
-    if i < len(game_board.board) and j < len(game_board.board[i]):
-        if game_board.board[i][j] != p:
+def check_main_diag_r(board, i, j, p):
+    if i < len(board) and j < len(board[i]):
+        if board[i][j] != p:
             return 0
         else:
-            return 1 + check_main_diag_r(i + 1, j + 1, p)
+            return 1 + check_main_diag_r(board, i + 1, j + 1, p)
     else:
         return 0
 
 
-def check_inv_diag_r(i, j, p):
-    if i >= 0 and j < len(game_board.board[i]):
-        if game_board.board[i][j] != p:
+def check_inv_diag_r(board, i, j, p):
+    if i >= 0 and j < len(board[i]):
+        if board[i][j] != p:
             return 0
         else:
-            return 1 + check_inv_diag_r(i - 1, j + 1, p)
+            return 1 + check_inv_diag_r(board, i - 1, j + 1, p)
     else:
         return 0
 
 
-def check_inv_diag_l(i, j, p):
-    if i < len(game_board.board) and j >= 0:
-        if game_board.board[i][j] != p:
+def check_inv_diag_l(board, i, j, p):
+    if i < len(board) and j >= 0:
+        if board[i][j] != p:
             return 0
         else:
-            return 1 + check_inv_diag_l(i + 1, j - 1, p)
+            return 1 + check_inv_diag_l(board, i + 1, j - 1, p)
     else:
         return 0
 
 
-def check_horiz_d(i, j, p):
-    if i < len(game_board.board):
-        if game_board.board[i][j] != p:
+def check_horiz_d(board, i, j, p):
+    if i < len(board):
+        if board[i][j] != p:
             return 0
         else:
-            return 1 + check_horiz_d(i + 1, j, p)
+            return 1 + check_horiz_d(board, i + 1, j, p)
     else:
         return 0
 
 
-def check_horiz_u(i, j, p):
+def check_horiz_u(board, i, j, p):
     if i >= 0:
-        if game_board.board[i][j] != p:
+        if board[i][j] != p:
             return 0
         else:
-            return 1 + check_horiz_u(i - 1, j, p)
+            return 1 + check_horiz_u(board, i - 1, j, p)
     else:
         return 0
 
 
-def check_vertical_r(i, j, p):
-    if j < len(game_board.board[0]):
-        if game_board.board[i][j] != p:
+def check_vertical_r(board, i, j, p):
+    if j < len(board[0]):
+        if board[i][j] != p:
             return 0
         else:
-            return 1 + check_vertical_r(i, j + 1, p)
+            return 1 + check_vertical_r(board, i, j + 1, p)
     else:
         return 0
 
 
-def check_vertical_l(i, j, p):
+def check_vertical_l(board, i, j, p):
     if j >= 0:
-        if game_board.board[i][j] != p:
+        if board[i][j] != p:
             return 0
         else:
-            return 1 + check_vertical_l(i, j - 1, p)
+            return 1 + check_vertical_l(board, i, j - 1, p)
     else:
         return 0
 
