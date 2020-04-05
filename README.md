@@ -6,12 +6,13 @@
 ### Feladatok:
 
 - [x] Connect 4 játék:
-    - Játékos lépése
-    - Játék ábrázolása
-    - Játék kiértékelése
+    - [x] Játékos lépése
+    - [x] Játék ábrázolása
+    - [x] Játék kiértékelése
 
 - [x]  Alfa-béta algoritmus:
     
     
-    
+
+### Gameplay:
 <img src="gameplayscreen.jpg" alt="drawing" width="200"/>
