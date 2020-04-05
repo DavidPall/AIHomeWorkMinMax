@@ -5,9 +5,9 @@
 
 ### Feladatok:
 -[x] Connect 4 játék:
-    -[x] Játékos lépése
-    -[x] Játék ábrázolása
-    -[x] Játék kiértékelése
+    - Játékos lépése
+    - Játék ábrázolása
+    - Játék kiértékelése
 
 -[x]  Alfa-béta algoritmus:
     
